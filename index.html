@@ -102,17 +102,16 @@
   .corner-flourish.tl{ top:24px; left:24px; }
   .corner-flourish.br{ bottom:24px; right:24px; transform:rotate(180deg); }
 
-  /* ---------- Tilt card ---------- */
-  .tilt-holder{ perspective:1000px; }
-  .tilt-card{ transform-style:preserve-3d; transition:transform .12s ease-out;
+  /* ---------- Card con reflejo sutil (sin inclinación 3D) ---------- */
+  .tilt-card{
     background:linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
     border:1px solid rgba(217,178,92,.35); border-radius:16px;
     box-shadow:0 20px 40px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.15);
     padding:22px; position:relative; overflow:hidden; }
   .tilt-card::before{ content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
-    background:linear-gradient(115deg, transparent 40%, rgba(255,255,255,.28) 50%, transparent 60%);
-    transform:translateX(-120%); animation:glint 4.5s ease-in-out infinite; }
-  @keyframes glint{ 0%,60%{ transform:translateX(-120%);} 80%{ transform:translateX(120%);} 100%{ transform:translateX(120%);} }
+    background:linear-gradient(115deg, transparent 44%, rgba(255,255,255,.1) 50%, transparent 56%);
+    transform:translateX(-120%); animation:glint 7s ease-in-out infinite; }
+  @keyframes glint{ 0%,70%{ transform:translateX(-120%);} 88%{ transform:translateX(120%);} 100%{ transform:translateX(120%);} }
 
   /* ---------- Gallery ---------- */
   .gallery-track{ display:flex; gap:14px; width:100%; overflow-x:auto; scroll-snap-type:x proximity;
@@ -382,14 +381,12 @@
 
   <section class="section">
     <p class="eyebrow reveal">Lo que amo de ti</p>
-    <div class="tilt-holder reveal d1">
-      <div class="tilt-card" id="tiltcard">
-        <p class="body-text" style="color:var(--ivory);">
-          Amo tu fuerza cuando el día se pone difícil, tu ternura cuando nadie más la ve, y esa
-          manera tan tuya de cuidar a quienes quieres. Eres cariñosa, inteligente y una compañera
-          maravillosa. Gracias por elegirme cada día y por dejarme formar parte de tu historia.
-        </p>
-      </div>
+    <div class="tilt-card reveal d1" id="tiltcard">
+      <p class="body-text" style="color:var(--ivory);">
+        Amo tu fuerza cuando el día se pone difícil, tu ternura cuando nadie más la ve, y esa
+        manera tan tuya de cuidar a quienes quieres. Eres cariñosa, inteligente y una compañera
+        maravillosa. Gracias por elegirme cada día y por dejarme formar parte de tu historia.
+      </p>
     </div>
   </section>
 
@@ -570,49 +567,15 @@ const FOTOS = [
   svg.innerHTML = bgHTML + linesHTML + nodesHTML;
 })();
 
-/* inclinación 3D de la tarjeta con el mouse o el giroscopio del celular (con manejo de errores) */
-(function(){
-  const card = document.getElementById('tiltcard');
-  if(!card) return;
-  document.addEventListener('mousemove', e=>{
-    try{
-      const r = card.getBoundingClientRect();
-      if(r.width===0 || r.bottom<0 || r.top>window.innerHeight) return;
-      const px = (e.clientX - r.left)/r.width - 0.5;
-      const py = (e.clientY - r.top)/r.height - 0.5;
-      card.style.transform = `rotateY(${px*14}deg) rotateX(${-py*14}deg)`;
-    }catch(err){ /* nunca dejar que un error de UI rompa la página */ }
-  });
-  if (window.DeviceOrientationEvent){
-    window.addEventListener('deviceorientation', e=>{
-      try{
-        if(e.beta==null) return;
-        const px = Math.max(-1,Math.min(1,(e.gamma||0)/30));
-        const py = Math.max(-1,Math.min(1,((e.beta||0)-45)/30));
-        card.style.transform = `rotateY(${px*14}deg) rotateX(${-py*14}deg)`;
-      }catch(err){}
-    });
-  }
-})();
-
 /* sobre: al presionarlo se abre, muestra el contenido y la carta desaparece por completo */
 (function(){
   const env = document.getElementById('envelope');
   const cover = document.getElementById('cover');
   const guide = document.getElementById('scroll-guide');
 
-  function requestTiltPermission(){
-    try{
-      if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
-        DeviceOrientationEvent.requestPermission().catch(()=>{});
-      }
-    }catch(err){ /* si el navegador no lo soporta, seguimos sin giroscopio */ }
-  }
-
   env.addEventListener('click', ()=>{
     if(env.classList.contains('open')) return;
     env.classList.add('open');
-    requestTiltPermission();
     document.getElementById('hint-first').style.opacity = '0';
 
     setTimeout(()=>{
