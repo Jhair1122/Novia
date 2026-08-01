@@ -136,29 +136,28 @@
   @keyframes twinkle{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.55; transform:scale(.85);} }
 
   /* ---------- Ramo de flores que florece ---------- */
-  .bouquet{ position:relative; width:min(78vw,260px); height:210px; margin:6px auto 4px; }
-  .bouquet-stems{ position:absolute; inset:0; z-index:0; }
-  .rose-item{ position:absolute; opacity:0; transform:scale(.15) rotate(-22deg); transform-origin:50% 82%;
-    animation:bloom 1.15s cubic-bezier(.34,1.45,.4,1) forwards; animation-play-state:paused; z-index:1;
-    filter:drop-shadow(0 8px 10px rgba(0,0,0,.35)); }
-  .section.in-view .rose-item{ animation-play-state:running; }
+  .bouquet{ position:relative; width:min(84vw,300px); margin:6px auto 4px; }
+  .bouquet svg{ width:100%; height:auto; display:block; overflow:visible; }
+  .bloom-inner{ opacity:0; transform:scale(.15) rotate(-18deg); transform-origin:0 0;
+    animation:bloom 1.15s cubic-bezier(.34,1.45,.4,1) forwards; animation-play-state:paused;
+    filter:drop-shadow(0 8px 10px rgba(0,0,0,.4)); }
+  .section.in-view .bloom-inner{ animation-play-state:running; }
   @keyframes bloom{
-    0%{ opacity:0; transform:scale(.15) rotate(-22deg); }
-    55%{ opacity:1; transform:scale(1.14) rotate(5deg); }
-    78%{ transform:scale(.93) rotate(-3deg); }
+    0%{ opacity:0; transform:scale(.15) rotate(-18deg); }
+    55%{ opacity:1; transform:scale(1.1) rotate(4deg); }
+    78%{ transform:scale(.95) rotate(-2deg); }
     100%{ opacity:1; transform:scale(1) rotate(0deg); }
   }
 
   /* ---------- Wax seal stamp ---------- */
-  .stamp-zone{ position:relative; width:170px; height:170px; margin:22px auto 8px; max-width:44vw; max-height:44vw; }
-  .stamp{ position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle at 35% 28%, #c14a63, #6e1c3c 72%);
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 18px 30px rgba(0,0,0,.5), inset 0 3px 6px rgba(255,255,255,.25);
+  .stamp-zone{ position:relative; width:170px; height:170px; margin:22px auto 8px; max-width:44vw; max-height:44vw;
+    filter:drop-shadow(0 16px 22px rgba(0,0,0,.5)); }
+  .stamp{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     transform:scale(2.6) translateY(-40px) rotate(-18deg); opacity:0; }
   .stamp.slam{ animation:slam .6s cubic-bezier(.2,.9,.3,1) forwards; }
   @keyframes slam{ 0%{ transform:scale(2.6) translateY(-40px) rotate(-18deg); opacity:0; }
     60%{ transform:scale(.92) translateY(0) rotate(-4deg); opacity:1; } 80%{ transform:scale(1.05) rotate(0deg); } 100%{ transform:scale(1) rotate(0deg); opacity:1; } }
-  .stamp svg{ width:62%; height:62%; }
+  .stamp svg{ width:100%; height:100%; }
 
   .burst{ position:absolute; width:100%; height:100%; inset:0; pointer-events:none; }
   .burst i{ position:absolute; left:50%; top:50%; width:14px; height:14px; opacity:0; }
@@ -166,13 +165,24 @@
   @keyframes burstOut{ 0%{ transform:translate(-50%,-50%) scale(.3); opacity:1; } 100%{ transform:translate(calc(-50% + var(--bx)), calc(-50% + var(--by))) scale(1); opacity:0; } }
 
   /* ---------- Guía de deslizar ---------- */
-  #scroll-guide{ position:fixed; left:50%; bottom:22px; transform:translate(-50%,10px); z-index:150;
-    display:flex; flex-direction:column; align-items:center; gap:6px; opacity:0; pointer-events:none;
+  #scroll-guide{ position:fixed; left:50%; bottom:26px; transform:translate(-50%,10px); z-index:150;
+    display:flex; flex-direction:column; align-items:center; gap:8px; opacity:0; pointer-events:none;
+    padding:14px 20px 12px; border-radius:30px; background:rgba(20,4,12,.5); backdrop-filter:blur(3px);
+    border:1px solid rgba(217,178,92,.4); box-shadow:0 10px 24px rgba(0,0,0,.4);
     transition:opacity .6s ease, transform .6s ease; }
   #scroll-guide.show{ opacity:1; transform:translate(-50%,0); }
-  #scroll-guide span{ font-family:'Jost',sans-serif; font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-bright); }
-  #scroll-guide .chev{ width:20px; height:20px; animation:chevBounce 1.6s ease-in-out infinite; }
-  @keyframes chevBounce{ 0%,100%{ transform:translateY(0); opacity:.5; } 50%{ transform:translateY(6px); opacity:1; } }
+  #scroll-guide.fading{ opacity:0; transform:translate(-50%,10px); }
+  #scroll-guide span{ font-family:'Jost',sans-serif; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-bright); }
+  .swipe-track{ width:24px; height:38px; border-radius:13px; border:1.5px solid var(--gold-bright); opacity:.9; position:relative; }
+  .swipe-dot{ position:absolute; left:50%; width:7px; height:7px; margin-left:-3.5px; border-radius:50%;
+    background:var(--gold-bright); box-shadow:0 0 6px var(--gold-bright); animation:swipeMove 1.7s ease-in-out infinite; }
+  @keyframes swipeMove{
+    0%{ top:21px; opacity:1; }
+    65%{ top:4px; opacity:.5; }
+    72%{ top:4px; opacity:0; }
+    73%{ top:21px; opacity:0; }
+    100%{ top:21px; opacity:1; }
+  }
 
   /* ---------- Responsive ---------- */
   @media (max-width:380px){
@@ -193,21 +203,122 @@
 <div id="scrollbar"></div>
 <div class="bg-fixed"></div>
 <div id="ambient"></div>
-<div id="scroll-guide"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="color:var(--gold-bright)"><path d="M6 9l6 6 6-6"/></svg><span>Desliza para continuar</span></div>
+<div id="scroll-guide">
+  <div class="swipe-track"><span class="swipe-dot"></span></div>
+  <span>Desliza hacia arriba</span>
+</div>
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
+    <!-- ===== Rosa detallada ===== -->
+    <radialGradient id="roseGradOuter" cx="35%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#ffe1e6"/>
+      <stop offset="45%" stop-color="#f0a2b6"/>
+      <stop offset="100%" stop-color="#b23a5c"/>
+    </radialGradient>
+    <radialGradient id="roseGradMid" cx="35%" cy="25%" r="80%">
+      <stop offset="0%" stop-color="#f7bfc9"/>
+      <stop offset="50%" stop-color="#d5607e"/>
+      <stop offset="100%" stop-color="#8f2648"/>
+    </radialGradient>
+    <radialGradient id="roseGradInner" cx="40%" cy="25%" r="80%">
+      <stop offset="0%" stop-color="#e2839f"/>
+      <stop offset="55%" stop-color="#a92a4d"/>
+      <stop offset="100%" stop-color="#5e1530"/>
+    </radialGradient>
+    <radialGradient id="roseGradCenter" cx="40%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#8a2c4a"/>
+      <stop offset="100%" stop-color="#3d0e21"/>
+    </radialGradient>
+    <!-- petal shapes (point up from base, replicated by rotation); each has a soft notch at the tip like a real rose petal -->
+    <path id="petal-outer" d="M50,55 C36,50 27,37 29,21 C30,14 34,8 40,4 C44,10 47,15 50,19 C53,15 56,10 60,4 C66,8 70,14 71,21 C73,37 64,50 50,55 Z" />
+    <path id="petal-mid" d="M50,55 C39,50 32,40 34,27 C35,20 39,15 43,11 C46,16 48,21 50,25 C52,21 54,16 57,11 C61,15 65,20 66,27 C68,40 61,50 50,55 Z" />
+    <path id="petal-inner" d="M50,55 C41,50 36,41 38,30 C40,23 45,17 50,15 C55,17 60,23 62,30 C64,41 59,50 50,55 Z" />
+
     <g id="rose-def">
-      <path d="M50 78 C30 78 18 62 22 44 C14 40 10 28 18 18 C10 12 14 0 26 2 C28 -8 44 -10 48 0 C56 -8 70 -6 70 6 C80 2 88 12 80 20 C90 26 88 40 78 44 C84 60 68 78 50 78 Z" fill="url(#roseGrad)"/>
-      <path d="M50 78 C40 78 32 68 34 56 C28 54 24 46 30 40 C24 36 26 26 34 26 C34 18 46 14 50 22 C54 14 66 18 66 26 C74 26 76 36 70 40 C76 46 72 54 66 56 C68 68 60 78 50 78 Z" fill="url(#roseGrad2)" opacity=".9"/>
-      <circle cx="50" cy="48" r="9" fill="#7a1f3a"/>
+      <!-- capa exterior: pétalos grandes y abiertos -->
+      <g fill="url(#roseGradOuter)" stroke="#8a2c4a" stroke-width=".4" stroke-opacity=".35">
+        <use href="#petal-outer" transform="rotate(-6 50 55)"/>
+        <use href="#petal-outer" transform="rotate(52 50 55)"/>
+        <use href="#petal-outer" transform="rotate(110 50 55)"/>
+        <use href="#petal-outer" transform="rotate(168 50 55)"/>
+        <use href="#petal-outer" transform="rotate(226 50 55)"/>
+        <use href="#petal-outer" transform="rotate(284 50 55)"/>
+      </g>
+      <!-- capa media: pétalos curvados, ligeramente rotados respecto a la capa exterior -->
+      <g fill="url(#roseGradMid)" stroke="#7a1f3a" stroke-width=".4" stroke-opacity=".4" transform="scale(.92)" style="transform-origin:50px 55px;">
+        <use href="#petal-mid" transform="rotate(22 50 55)"/>
+        <use href="#petal-mid" transform="rotate(94 50 55)"/>
+        <use href="#petal-mid" transform="rotate(166 50 55)"/>
+        <use href="#petal-mid" transform="rotate(238 50 55)"/>
+        <use href="#petal-mid" transform="rotate(310 50 55)"/>
+      </g>
+      <!-- capa interior: pétalos pequeños envolviendo el centro -->
+      <g fill="url(#roseGradInner)" stroke="#5e1530" stroke-width=".4" stroke-opacity=".45" transform="scale(.8)" style="transform-origin:50px 55px;">
+        <use href="#petal-inner" transform="rotate(8 50 55)"/>
+        <use href="#petal-inner" transform="rotate(80 50 55)"/>
+        <use href="#petal-inner" transform="rotate(152 50 55)"/>
+        <use href="#petal-inner" transform="rotate(224 50 55)"/>
+        <use href="#petal-inner" transform="rotate(296 50 55)"/>
+      </g>
+      <!-- botón central: espiral cerrada -->
+      <g transform="scale(.55)" style="transform-origin:50px 55px;" fill="url(#roseGradCenter)" stroke="#3d0e21" stroke-width=".5" stroke-opacity=".5">
+        <use href="#petal-inner" transform="rotate(15 50 55)"/>
+        <use href="#petal-inner" transform="rotate(95 50 55) scale(.85)" style="transform-origin:50px 55px;"/>
+        <use href="#petal-inner" transform="rotate(175 50 55)"/>
+        <use href="#petal-inner" transform="rotate(255 50 55) scale(.85)" style="transform-origin:50px 55px;"/>
+        <use href="#petal-inner" transform="rotate(335 50 55)"/>
+      </g>
+      <ellipse cx="50" cy="31" rx="3.4" ry="5.5" fill="#2c0a18" opacity=".55"/>
     </g>
-    <linearGradient id="roseGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f0aebd"/><stop offset="100%" stop-color="#c9436a"/>
+
+    <!-- ===== Hoja y tallo ===== -->
+    <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8fbb6c"/>
+      <stop offset="100%" stop-color="#33501f"/>
     </linearGradient>
-    <linearGradient id="roseGrad2" x1="0" y1="1" x2="1" y2="0">
-      <stop offset="0%" stop-color="#fbd6dd"/><stop offset="100%" stop-color="#e0708f"/>
+    <linearGradient id="stemGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#2f4a22"/>
+      <stop offset="100%" stop-color="#6f9a5e"/>
     </linearGradient>
+    <linearGradient id="ribbonGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0d998"/>
+      <stop offset="100%" stop-color="#b8863c"/>
+    </linearGradient>
+    <g id="leaf-def">
+      <path d="M50 8 C72 24 78 56 50 92 C22 56 28 24 50 8 Z" fill="url(#leafGrad)" stroke="#233d16" stroke-width="1" stroke-opacity=".4"/>
+      <path d="M50 16 L50 84" stroke="#233d16" stroke-width="1.6" opacity=".55"/>
+      <path d="M50 30 L36 44 M50 30 L64 44 M50 48 L38 60 M50 48 L62 60 M50 64 L40 74 M50 64 L60 74" stroke="#233d16" stroke-width="1" opacity=".4" fill="none"/>
+    </g>
+    <g id="thorn-def">
+      <path d="M0,0 L7,-3 L2,4 Z" fill="#3f5a2e"/>
+    </g>
+
+    <!-- Rosa + tallo + hojas como una sola unidad: el pivote (0,0) es la base del tallo,
+         así la flor y sus hojas siempre quedan perfectamente unidas al tallo sin importar
+         dónde se coloque o rote la unidad completa. -->
+    <g id="rose-stem-def">
+      <path d="M0,0 C-7,-38 7,-72 -3,-108 C-9,-130 5,-150 0,-168"
+        stroke="url(#stemGrad)" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <use href="#thorn-def" transform="translate(-5,-46) rotate(150) scale(.8)"/>
+      <use href="#thorn-def" transform="translate(5,-100) rotate(-30) scale(.8)"/>
+      <use href="#leaf-def" transform="translate(-4,-62) rotate(-48) scale(.3)"/>
+      <use href="#leaf-def" transform="translate(7,-102) rotate(42) scale(.27)"/>
+      <use href="#rose-def" transform="translate(-45,-217.5) scale(.9)"/>
+    </g>
+
+    <!-- ===== Sello de cera (forma orgánica, no un círculo perfecto) ===== -->
+    <radialGradient id="sealGrad" cx="38%" cy="30%" r="80%">
+      <stop offset="0%" stop-color="#8a2440"/>
+      <stop offset="55%" stop-color="#5c1530"/>
+      <stop offset="100%" stop-color="#2c0a18"/>
+    </radialGradient>
+    <g id="seal-def">
+      <path d="M 97.20,50.00 Q 97.20,50.00 94.42,54.75 Q 91.65,59.51 92.09,64.99 Q 92.53,70.48 87.96,73.56 Q 83.40,76.64 81.41,81.77 Q 79.43,86.90 73.98,87.70 Q 68.54,88.49 64.52,92.25 Q 60.50,96.02 55.25,94.37 Q 50.00,92.72 44.75,94.37 Q 39.50,96.02 35.48,92.25 Q 31.46,88.49 26.02,87.70 Q 20.57,86.90 18.59,81.77 Q 16.60,76.64 12.04,73.56 Q 7.47,70.48 7.91,64.99 Q 8.35,59.51 5.58,54.75 Q 2.80,50.00 5.58,45.25 Q 8.35,40.49 7.91,35.01 Q 7.47,29.52 12.04,26.44 Q 16.60,23.36 18.59,18.23 Q 20.57,13.10 26.02,12.30 Q 31.46,11.51 35.48,7.75 Q 39.50,3.98 44.75,5.63 Q 50.00,7.28 55.25,5.63 Q 60.50,3.98 64.52,7.75 Q 68.54,11.51 73.98,12.30 Q 79.43,13.10 81.41,18.23 Q 83.40,23.36 87.96,26.44 Q 92.53,29.52 92.09,35.01 Q 91.65,40.49 94.42,45.25 Z"
+        fill="url(#sealGrad)" stroke="#1c0510" stroke-width=".6" stroke-opacity=".5"/>
+      <path d="M 97.20,50.00 Q 97.20,50.00 94.42,54.75 Q 91.65,59.51 92.09,64.99 Q 92.53,70.48 87.96,73.56 Q 83.40,76.64 81.41,81.77 Q 79.43,86.90 73.98,87.70 Q 68.54,88.49 64.52,92.25 Q 60.50,96.02 55.25,94.37 Q 50.00,92.72 44.75,94.37 Q 39.50,96.02 35.48,92.25 Q 31.46,88.49 26.02,87.70 Q 20.57,86.90 18.59,81.77 Q 16.60,76.64 12.04,73.56 Q 7.47,70.48 7.91,64.99 Q 8.35,59.51 5.58,54.75 Q 2.80,50.00 5.58,45.25 Q 8.35,40.49 7.91,35.01 Q 7.47,29.52 12.04,26.44 Q 16.60,23.36 18.59,18.23 Q 20.57,13.10 26.02,12.30 Q 31.46,11.51 35.48,7.75 Q 39.50,3.98 44.75,5.63 Q 50.00,7.28 55.25,5.63 Q 60.50,3.98 64.52,7.75 Q 68.54,11.51 73.98,12.30 Q 79.43,13.10 81.41,18.23 Q 83.40,23.36 87.96,26.44 Q 92.53,29.52 92.09,35.01 Q 91.65,40.49 94.42,45.25 Z"
+        fill="none" stroke="rgba(255,255,255,.18)" stroke-width="1.1" transform="scale(.9)" style="transform-origin:50px 50px;"/>
+    </g>
     <g id="spark-def">
       <path d="M50 0 C52 30 54 46 54 46 C54 46 70 48 100 50 C70 52 54 54 54 54 C54 54 52 70 50 100 C48 70 46 54 46 54 C46 54 30 52 0 50 C30 48 46 46 46 46 C46 46 48 30 50 0 Z" fill="url(#sparkGrad)"/>
     </g>
@@ -303,21 +414,31 @@
   <section class="section">
     <p class="eyebrow reveal">Un detalle para ti</p>
     <div class="bouquet reveal d1">
-      <svg class="bouquet-stems" viewBox="0 0 240 210" xmlns="http://www.w3.org/2000/svg">
-        <path d="M120 205 C 95 165, 68 128, 46 92" stroke="#6f9a5e" stroke-width="3" fill="none" opacity=".75"/>
-        <path d="M120 205 C 102 158, 82 112, 66 74" stroke="#6f9a5e" stroke-width="3" fill="none" opacity=".75"/>
-        <path d="M120 205 C 120 150, 120 100, 120 58" stroke="#6f9a5e" stroke-width="3" fill="none" opacity=".8"/>
-        <path d="M120 205 C 138 158, 158 112, 174 74" stroke="#6f9a5e" stroke-width="3" fill="none" opacity=".75"/>
-        <path d="M120 205 C 145 165, 172 128, 194 92" stroke="#6f9a5e" stroke-width="3" fill="none" opacity=".75"/>
-        <path d="M100 198 C 92 184, 92 172, 102 176 C 110 179, 110 191, 100 198 Z" fill="url(#roseGrad)"/>
-        <path d="M140 198 C 148 184, 148 172, 138 176 C 130 179, 130 191, 140 198 Z" fill="url(#roseGrad)"/>
-        <circle cx="120" cy="196" r="6.5" fill="#a92a4d"/>
+      <svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg">
+        <!-- cada rosa es una sola unidad rosa+tallo+hojas: nace exactamente del mismo punto (el lazo) -->
+        <g transform="translate(150,248) rotate(-24) scale(.8)">
+          <g class="bloom-inner" style="animation-delay:.05s;"><use href="#rose-stem-def"/></g>
+        </g>
+        <g transform="translate(150,248) rotate(-11) scale(.92)">
+          <g class="bloom-inner" style="animation-delay:.26s;"><use href="#rose-stem-def"/></g>
+        </g>
+        <g transform="translate(150,248) scale(1)">
+          <g class="bloom-inner" style="animation-delay:.47s;"><use href="#rose-stem-def"/></g>
+        </g>
+        <g transform="translate(150,248) rotate(11) scale(.92)">
+          <g class="bloom-inner" style="animation-delay:.68s;"><use href="#rose-stem-def"/></g>
+        </g>
+        <g transform="translate(150,248) rotate(24) scale(.8)">
+          <g class="bloom-inner" style="animation-delay:.89s;"><use href="#rose-stem-def"/></g>
+        </g>
+        <!-- lazo que amarra el ramo, justo sobre la base de los tallos -->
+        <g transform="translate(150,248)">
+          <path d="M-20,-10 C-24,-22 -16,-28 0,-24 C16,-28 24,-22 20,-10 C14,-16 6,-14 0,-8 C-6,-14 -14,-16 -20,-10 Z" fill="url(#ribbonGrad)" stroke="#8a6425" stroke-width="1" opacity=".95"/>
+          <path d="M-8,-10 L-16,4 L-8,0 Z" fill="url(#ribbonGrad)" opacity=".9"/>
+          <path d="M8,-10 L16,4 L8,0 Z" fill="url(#ribbonGrad)" opacity=".9"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="5" fill="#a9793a"/>
+        </g>
       </svg>
-      <div class="rose-item" style="left:8%; top:38%; width:26%; animation-delay:.05s;"><svg viewBox="0 0 100 100"><use href="#rose-def"/></svg></div>
-      <div class="rose-item" style="left:30%; top:10%; width:30%; animation-delay:.28s;"><svg viewBox="0 0 100 100"><use href="#rose-def"/></svg></div>
-      <div class="rose-item" style="left:56%; top:2%; width:34%; animation-delay:.5s;"><svg viewBox="0 0 100 100"><use href="#rose-def"/></svg></div>
-      <div class="rose-item" style="left:78%; top:22%; width:27%; animation-delay:.72s;"><svg viewBox="0 0 100 100"><use href="#rose-def"/></svg></div>
-      <div class="rose-item" style="left:40%; top:32%; width:24%; animation-delay:.9s;"><svg viewBox="0 0 100 100"><use href="#rose-def"/></svg></div>
     </div>
     <p class="body-text reveal d2">Estas flores son para ti, Camila. Que en nuestra historia siempre sigan floreciendo tantas cosas hermosas como tú.</p>
   </section>
@@ -326,7 +447,12 @@
     <p class="eyebrow reveal">Para siempre</p>
     <p class="body-text reveal d1">Feliz día, mi Camila. Te amo muchísimo y quiero que sepas que eres el regalo más bonito que la vida me dio.</p>
     <div class="stamp-zone reveal d2">
-      <div class="stamp" id="waxstamp"><svg viewBox="0 0 100 100"><use href="#heart-def"/></svg></div>
+      <div class="stamp" id="waxstamp">
+        <svg viewBox="0 0 100 100">
+          <use href="#seal-def"/>
+          <use href="#heart-def" x="27" y="26" width="46" height="46" opacity=".92"/>
+        </svg>
+      </div>
       <div class="burst" id="burst"></div>
     </div>
     <h1 class="signature reveal d2" style="font-size:34px;margin-top:6px;">Jhair y Camila</h1>
@@ -508,15 +634,19 @@ const FOTOS = [
   });
 })();
 
-/* guía de deslizar: se oculta apenas el usuario hace scroll por primera vez */
+/* guía de deslizar: permanece visible un momento y se desvanece suavemente
+   una vez que el usuario ya avanzó lo suficiente en el contenido */
 (function(){
   const guide = document.getElementById('scroll-guide');
-  let hidden = false;
+  let fading = false;
   function onScroll(){
-    if(hidden) return;
-    hidden = true;
-    guide.classList.remove('show');
-    window.removeEventListener('scroll', onScroll);
+    if(fading) return;
+    if(window.scrollY > window.innerHeight * 0.35){
+      fading = true;
+      guide.classList.add('fading');
+      guide.classList.remove('show');
+      window.removeEventListener('scroll', onScroll);
+    }
   }
   window.addEventListener('scroll', onScroll, {passive:true});
 })();
