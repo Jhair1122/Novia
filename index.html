@@ -48,6 +48,8 @@
 
   .section{
     min-height:100vh;
+    min-height:100svh;
+    min-height:100dvh;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     padding:90px 34px; text-align:center; position:relative;
     transition:opacity .6s ease, max-height .7s ease, padding .7s ease;
@@ -72,8 +74,8 @@
   .divider{ width:min(70%,220px); margin:0 auto 22px; opacity:.75; }
   .divider svg{ width:100%; height:auto; display:block; }
 
-  #cover{ min-height:100vh; }
-  .envelope-wrap{ perspective:1400px; width:min(78vw,300px); max-width:90%; }
+  #cover{ min-height:100vh; min-height:100svh; min-height:100dvh; }
+  .envelope-wrap{ perspective:1400px; width:min(78vw,60vh,300px); max-width:90%; }
   .envelope{ position:relative; width:100%; padding-top:68%; cursor:pointer; }
   .env-body{ position:absolute; inset:0; border-radius:6px; background:linear-gradient(160deg,#f6e3cf,#e9c9a3);
     box-shadow:0 25px 50px var(--shadow), inset 0 0 0 1px rgba(255,255,255,.4); }
@@ -130,7 +132,7 @@
   .star-node.big{ animation:twinkle 2.6s ease-in-out infinite; }
   @keyframes twinkle{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.55; transform:scale(.85);} }
 
-  .bouquet{ position:relative; width:min(84vw,300px); margin:6px auto 4px; }
+  .bouquet{ position:relative; width:min(84vw,55vh,300px); margin:6px auto 4px; }
   .bouquet svg{ width:100%; height:auto; display:block; overflow:visible; }
   .bloom-inner{ opacity:0; transform:scale(.15) rotate(-18deg); transform-origin:0 0;
     animation:bloom 1.15s cubic-bezier(.34,1.45,.4,1) forwards; animation-play-state:paused;
@@ -143,7 +145,7 @@
     100%{ opacity:1; transform:scale(1) rotate(0deg); }
   }
 
-  .stamp-zone{ position:relative; width:170px; height:170px; margin:22px auto 8px; max-width:44vw; max-height:44vw;
+  .stamp-zone{ position:relative; width:min(44vw,38vh,170px); height:min(44vw,38vh,170px); margin:22px auto 8px;
     filter:drop-shadow(0 16px 22px rgba(0,0,0,.5)); }
   .stamp{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     transform:scale(2.6) translateY(-40px) rotate(-18deg); opacity:0; }
@@ -223,12 +225,17 @@
 
   @media (max-width:380px){
     .section{ padding:64px 20px; }
-    .stamp-zone{ width:140px; height:140px; }
+    .stamp-zone{ width:min(40vw,34vh,140px); height:min(40vw,34vh,140px); }
   }
   @media (max-height:640px) and (orientation:landscape){
-    .section, #cover{ min-height:auto; padding:44px 24px; }
-    .divider{ margin-bottom:12px; }
-    #next-btn{ width:36px; height:36px; }
+    .section, #cover{ min-height:auto; padding:32px 24px; }
+    .divider{ margin-bottom:10px; }
+    #next-btn{ width:34px; height:34px; bottom:calc(10px + env(safe-area-inset-bottom,0px)); right:calc(10px + env(safe-area-inset-right,0px)); }
+    #music-toggle{ width:34px; height:34px; top:calc(10px + env(safe-area-inset-top,0px)); right:calc(10px + env(safe-area-inset-right,0px)); }
+    #scroll-guide{ padding:8px 14px 7px; gap:5px; bottom:calc(10px + env(safe-area-inset-bottom,0px)); }
+    .swipe-track{ width:18px; height:28px; }
+    .stamp-zone{ width:min(30vh,120px); height:min(30vh,120px); margin:10px auto 6px; }
+    .bouquet{ width:min(50vh,240px); }
   }
   @media (min-width:900px){
     #page{ max-width:620px; }
@@ -525,8 +532,13 @@ const FOTOS = [
   const text = "Feliz Día, Camila";
   const holder = document.getElementById('letters-title');
   [...text].forEach((ch,i)=>{
+    if(ch === ' '){
+      /* espacio real (no fijo) para que el título pueda partirse en pantallas angostas */
+      holder.appendChild(document.createTextNode(' '));
+      return;
+    }
     const span = document.createElement('span');
-    span.textContent = ch === ' ' ? '\u00A0' : ch;
+    span.textContent = ch;
     span.style.animationDelay = (i*0.045)+'s';
     holder.appendChild(span);
   });
