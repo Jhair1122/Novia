@@ -69,11 +69,9 @@
   .section.in-view .letters span{ animation-play-state:running; }
   @keyframes letterIn{ to{ opacity:1; transform:rotateX(0) translateY(0);} }
 
-  /* filigrana decorativa entre secciones */
   .divider{ width:min(70%,220px); margin:0 auto 22px; opacity:.75; }
   .divider svg{ width:100%; height:auto; display:block; }
 
-  /* ---------- ENVELOPE ---------- */
   #cover{ min-height:100vh; }
   .envelope-wrap{ perspective:1400px; width:min(78vw,300px); max-width:90%; }
   .envelope{ position:relative; width:100%; padding-top:68%; cursor:pointer; }
@@ -103,7 +101,6 @@
   .corner-flourish.tl{ top:24px; left:24px; }
   .corner-flourish.br{ bottom:24px; right:24px; transform:rotate(180deg); }
 
-  /* ---------- Card con reflejo sutil (sin inclinación 3D) ---------- */
   .tilt-card{
     background:linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
     border:1px solid rgba(217,178,92,.35); border-radius:16px;
@@ -114,7 +111,6 @@
     transform:translateX(-120%); animation:glint 7s ease-in-out infinite; }
   @keyframes glint{ 0%,70%{ transform:translateX(-120%);} 88%{ transform:translateX(120%);} 100%{ transform:translateX(120%);} }
 
-  /* ---------- Gallery ---------- */
   .gallery-track{ display:flex; gap:14px; width:100%; overflow-x:auto; scroll-snap-type:x proximity;
     padding:10px 4px 16px; -webkit-overflow-scrolling:touch; }
   .gallery-track::-webkit-scrollbar{ height:5px; }
@@ -128,14 +124,12 @@
   .photo-card .cap{ position:absolute; left:0; right:0; bottom:0; padding:14px 12px 12px;
     background:linear-gradient(0deg, rgba(0,0,0,.7), transparent); color:var(--ivory); font-family:'Dancing Script',cursive; font-size:17px; text-align:left; }
 
-  /* ---------- Constellation ---------- */
   #stars-svg{ width:min(88vw,360px); height:auto; overflow:visible; }
   .star-node{ fill:var(--gold-bright); filter:drop-shadow(0 0 4px var(--gold-bright)); }
   .star-line{ stroke:var(--gold); stroke-width:1; stroke-dasharray:6 4; opacity:.6; }
   .star-node.big{ animation:twinkle 2.6s ease-in-out infinite; }
   @keyframes twinkle{ 0%,100%{ opacity:1; transform:scale(1);} 50%{ opacity:.55; transform:scale(.85);} }
 
-  /* ---------- Ramo de flores que florece ---------- */
   .bouquet{ position:relative; width:min(84vw,300px); margin:6px auto 4px; }
   .bouquet svg{ width:100%; height:auto; display:block; overflow:visible; }
   .bloom-inner{ opacity:0; transform:scale(.15) rotate(-18deg); transform-origin:0 0;
@@ -149,7 +143,6 @@
     100%{ opacity:1; transform:scale(1) rotate(0deg); }
   }
 
-  /* ---------- Wax seal stamp ---------- */
   .stamp-zone{ position:relative; width:170px; height:170px; margin:22px auto 8px; max-width:44vw; max-height:44vw;
     filter:drop-shadow(0 16px 22px rgba(0,0,0,.5)); }
   .stamp{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
@@ -164,7 +157,6 @@
   .burst.go i{ animation:burstOut 1.1s ease-out forwards; }
   @keyframes burstOut{ 0%{ transform:translate(-50%,-50%) scale(.3); opacity:1; } 100%{ transform:translate(calc(-50% + var(--bx)), calc(-50% + var(--by))) scale(1); opacity:0; } }
 
-  /* ---------- Guía de deslizar ---------- */
   #scroll-guide{ position:fixed; left:50%; bottom:26px; transform:translate(-50%,10px); z-index:150;
     display:flex; flex-direction:column; align-items:center; gap:8px; opacity:0; pointer-events:none;
     padding:14px 20px 12px; border-radius:30px; background:rgba(20,4,12,.5); backdrop-filter:blur(3px);
@@ -184,7 +176,6 @@
     100%{ top:21px; opacity:1; }
   }
 
-  /* ---------- Botón de música ---------- */
   #music-toggle{ position:fixed; top:18px; right:18px; z-index:160; width:42px; height:42px; border-radius:50%;
     border:1px solid rgba(217,178,92,.45); background:rgba(20,4,12,.55); backdrop-filter:blur(3px);
     display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; pointer-events:none;
@@ -196,7 +187,6 @@
   #music-toggle.playing .eq i{ animation:eq .9s ease-in-out infinite; }
   @keyframes eq{ 0%,100%{ transform:scaleY(.4);} 50%{ transform:scaleY(1);} }
 
-  /* ---------- Pétalos cayendo ---------- */
   .fall{ position:absolute; top:-8vh; will-change:transform,opacity; }
   @keyframes fallDown{
     0%{ transform:translateY(0) translateX(0) rotate(0deg); opacity:0; }
@@ -205,23 +195,19 @@
     100%{ transform:translateY(112vh) translateX(var(--drift)) rotate(300deg); opacity:0; }
   }
 
-  /* ---------- Resplandor detrás del sello final ---------- */
   .stamp-glow{ position:absolute; left:50%; top:50%; width:220%; height:220%; transform:translate(-50%,-50%);
     border-radius:50%; background:radial-gradient(circle, rgba(240,217,152,.35), transparent 65%);
     animation:glowPulse 3.2s ease-in-out infinite; z-index:-1; }
   @keyframes glowPulse{ 0%,100%{ opacity:.55; transform:translate(-50%,-50%) scale(.92);} 50%{ opacity:1; transform:translate(-50%,-50%) scale(1.08);} }
 
-  /* ---------- Suave vaivén continuo del ramo ya florecido ---------- */
   .bouquet svg{ animation:swayBouquet 5s ease-in-out infinite; transform-origin:50% 100%; }
   @keyframes swayBouquet{ 0%,100%{ transform:rotate(-1.2deg);} 50%{ transform:rotate(1.2deg);} }
 
-  /* ---------- Destellos junto al título ---------- */
   .title-sparkle{ position:absolute; width:22px; height:22px; opacity:0; pointer-events:none; }
   .section.in-view .title-sparkle{ animation:sparkleTwinkle 2.4s ease-in-out infinite; animation-play-state:running; }
   .title-sparkle{ animation-play-state:paused; }
   @keyframes sparkleTwinkle{ 0%,100%{ opacity:.2; transform:scale(.7) rotate(0deg);} 50%{ opacity:1; transform:scale(1.15) rotate(25deg);} }
 
-  /* ---------- Responsive ---------- */
   @media (max-width:380px){
     .section{ padding:64px 20px; }
     .stamp-zone{ width:140px; height:140px; }
@@ -254,7 +240,6 @@
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <!-- ===== Rosa detallada ===== -->
     <radialGradient id="roseGradOuter" cx="35%" cy="30%" r="80%">
       <stop offset="0%" stop-color="#ffe1e6"/>
       <stop offset="45%" stop-color="#f0a2b6"/>
@@ -274,13 +259,11 @@
       <stop offset="0%" stop-color="#8a2c4a"/>
       <stop offset="100%" stop-color="#3d0e21"/>
     </radialGradient>
-    <!-- petal shapes (point up from base, replicated by rotation); each has a soft notch at the tip like a real rose petal -->
     <path id="petal-outer" d="M50,55 C36,50 27,37 29,21 C30,14 34,8 40,4 C44,10 47,15 50,19 C53,15 56,10 60,4 C66,8 70,14 71,21 C73,37 64,50 50,55 Z" />
     <path id="petal-mid" d="M50,55 C39,50 32,40 34,27 C35,20 39,15 43,11 C46,16 48,21 50,25 C52,21 54,16 57,11 C61,15 65,20 66,27 C68,40 61,50 50,55 Z" />
     <path id="petal-inner" d="M50,55 C41,50 36,41 38,30 C40,23 45,17 50,15 C55,17 60,23 62,30 C64,41 59,50 50,55 Z" />
 
     <g id="rose-def">
-      <!-- capa exterior: pétalos grandes y abiertos -->
       <g fill="url(#roseGradOuter)" stroke="#8a2c4a" stroke-width=".4" stroke-opacity=".35">
         <use href="#petal-outer" transform="rotate(-6 50 55)"/>
         <use href="#petal-outer" transform="rotate(52 50 55)"/>
@@ -289,7 +272,6 @@
         <use href="#petal-outer" transform="rotate(226 50 55)"/>
         <use href="#petal-outer" transform="rotate(284 50 55)"/>
       </g>
-      <!-- capa media: pétalos curvados, ligeramente rotados respecto a la capa exterior -->
       <g fill="url(#roseGradMid)" stroke="#7a1f3a" stroke-width=".4" stroke-opacity=".4" transform="scale(.92)" style="transform-origin:50px 55px;">
         <use href="#petal-mid" transform="rotate(22 50 55)"/>
         <use href="#petal-mid" transform="rotate(94 50 55)"/>
@@ -297,7 +279,7 @@
         <use href="#petal-mid" transform="rotate(238 50 55)"/>
         <use href="#petal-mid" transform="rotate(310 50 55)"/>
       </g>
-      <!-- capa interior: pétalos pequeños envolviendo el centro -->
+
       <g fill="url(#roseGradInner)" stroke="#5e1530" stroke-width=".4" stroke-opacity=".45" transform="scale(.8)" style="transform-origin:50px 55px;">
         <use href="#petal-inner" transform="rotate(8 50 55)"/>
         <use href="#petal-inner" transform="rotate(80 50 55)"/>
@@ -305,7 +287,7 @@
         <use href="#petal-inner" transform="rotate(224 50 55)"/>
         <use href="#petal-inner" transform="rotate(296 50 55)"/>
       </g>
-      <!-- botón central: espiral cerrada -->
+
       <g transform="scale(.55)" style="transform-origin:50px 55px;" fill="url(#roseGradCenter)" stroke="#3d0e21" stroke-width=".5" stroke-opacity=".5">
         <use href="#petal-inner" transform="rotate(15 50 55)"/>
         <use href="#petal-inner" transform="rotate(95 50 55) scale(.85)" style="transform-origin:50px 55px;"/>
@@ -316,7 +298,6 @@
       <ellipse cx="50" cy="31" rx="3.4" ry="5.5" fill="#2c0a18" opacity=".55"/>
     </g>
 
-    <!-- ===== Hoja y tallo ===== -->
     <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#8fbb6c"/>
       <stop offset="100%" stop-color="#33501f"/>
@@ -338,9 +319,7 @@
       <path d="M0,0 L7,-3 L2,4 Z" fill="#3f5a2e"/>
     </g>
 
-    <!-- Rosa + tallo + hojas como una sola unidad: el pivote (0,0) es la base del tallo,
-         así la flor y sus hojas siempre quedan perfectamente unidas al tallo sin importar
-         dónde se coloque o rote la unidad completa. -->
+
     <g id="rose-stem-def">
       <path d="M0,0 C-7,-38 7,-72 -3,-108 C-9,-130 5,-150 0,-168"
         stroke="url(#stemGrad)" stroke-width="5" fill="none" stroke-linecap="round"/>
@@ -351,7 +330,6 @@
       <use href="#rose-def" transform="translate(-45,-217.5) scale(.9)"/>
     </g>
 
-    <!-- ===== Sello de cera (forma orgánica, no un círculo perfecto) ===== -->
     <radialGradient id="sealGrad" cx="38%" cy="30%" r="80%">
       <stop offset="0%" stop-color="#8a2440"/>
       <stop offset="55%" stop-color="#5c1530"/>
@@ -459,7 +437,6 @@
     <p class="eyebrow reveal">Un detalle para ti</p>
     <div class="bouquet reveal d1">
       <svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg">
-        <!-- cada rosa es una sola unidad rosa+tallo+hojas: nace exactamente del mismo punto (el lazo) -->
         <g transform="translate(150,248) rotate(-24) scale(.8)">
           <g class="bloom-inner" style="animation-delay:.05s;"><use href="#rose-stem-def"/></g>
         </g>
@@ -475,7 +452,7 @@
         <g transform="translate(150,248) rotate(24) scale(.8)">
           <g class="bloom-inner" style="animation-delay:.89s;"><use href="#rose-stem-def"/></g>
         </g>
-        <!-- lazo que amarra el ramo, justo sobre la base de los tallos -->
+
         <g transform="translate(150,248)">
           <path d="M-20,-10 C-24,-22 -16,-28 0,-24 C16,-28 24,-22 20,-10 C14,-16 6,-14 0,-8 C-6,-14 -14,-16 -20,-10 Z" fill="url(#ribbonGrad)" stroke="#8a6425" stroke-width="1" opacity=".95"/>
           <path d="M-8,-10 L-16,4 L-8,0 Z" fill="url(#ribbonGrad)" opacity=".9"/>
@@ -508,14 +485,13 @@
 
 <script>
 const FOTOS = [
-  { src:'fotos/foto1.jpg', cap:'Nuestro primer recuerdo' },
-  { src:'fotos/foto2.jpg', cap:'Ese día tan especial' },
-  { src:'fotos/foto3.jpg', cap:'Contigo, siempre riendo' },
-  { src:'fotos/foto4.jpg', cap:'Una de mis fotos favoritas' },
-  { src:'fotos/foto5.jpg', cap:'Nosotros' },
+  { src:'primer_recuerdo.jpg', cap:'Nuestro primer recuerdo' },
+  { src:'dia_especial.jpg', cap:'Ese día tan especial' },
+  { src:'siempre_contigo.jpg', cap:'Siempre contigo' },
+  { src:'foto_favorita.jpg', cap:'Una de mis fotos favoritas' },
+  { src:'nosotros.jpg', cap:'Nosotros' },
 ];
 
-/* filigrana decorativa: se agrega arriba de cada sección de contenido (no en la portada) */
 (function(){
   const dividerSVG = `<div class="divider"><svg viewBox="0 0 300 26" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 13 C 60 2, 110 2, 140 13" fill="none" stroke="#d9b25c" stroke-width="1" opacity=".6"/>
@@ -555,7 +531,6 @@ const FOTOS = [
   });
 })();
 
-/* ambiente: corazones, destellos y mariposas subiendo con delicadeza por toda la pantalla */
 (function(){
   const wrap = document.getElementById('ambient');
   const N = 18;
@@ -588,7 +563,6 @@ const FOTOS = [
   document.head.appendChild(style);
 })();
 
-/* pétalos de rosa cayendo despacio, para darle más vida romántica a toda la carta */
 (function(){
   const wrap = document.getElementById('ambient');
   const N = 10;
@@ -610,7 +584,6 @@ const FOTOS = [
   }
 })();
 
-/* constelación: estrellas dibujando un corazón, con margen amplio para que nunca se recorte */
 (function(){
   const svg = document.getElementById('stars-svg');
   const t = [];
@@ -637,7 +610,6 @@ const FOTOS = [
   svg.innerHTML = bgHTML + linesHTML + nodesHTML;
 })();
 
-/* sobre: al presionarlo se abre, muestra el contenido y la carta desaparece por completo */
 (function(){
   const env = document.getElementById('envelope');
   const cover = document.getElementById('cover');
@@ -671,7 +643,7 @@ const FOTOS = [
         setPlayingIcon(true);
         musicBtn.classList.add('show');
       }).catch(()=>{
-        /* el navegador bloqueó el autoplay: igual mostramos el botón para que lo active manualmente */
+
         setPlayingIcon(false);
         musicBtn.classList.add('show');
       });
@@ -696,8 +668,6 @@ const FOTOS = [
   });
 })();
 
-/* guía de deslizar: permanece visible un momento y se desvanece suavemente
-   una vez que el usuario ya avanzó lo suficiente en el contenido */
 (function(){
   const guide = document.getElementById('scroll-guide');
   let fading = false;
@@ -713,7 +683,6 @@ const FOTOS = [
   window.addEventListener('scroll', onScroll, {passive:true});
 })();
 
-/* las secciones aparecen deslizando de abajo hacia arriba a medida que se hace scroll */
 (function(){
   const sections = document.querySelectorAll('.section');
   try{
@@ -733,7 +702,7 @@ const FOTOS = [
     }, { threshold:0.3 });
     sections.forEach(s=> obs.observe(s));
   }catch(err){
-    /* navegador sin soporte: mostrar todo el contenido directamente, sin animación de entrada */
+
     sections.forEach(s=> s.classList.add('in-view'));
   }
 })();
@@ -758,7 +727,6 @@ function launchBurst(){
   }catch(err){ /* la carta debe seguir funcionando aunque falle este efecto decorativo */ }
 }
 
-/* barra de progreso de lectura, solo visual */
 (function(){
   const bar = document.getElementById('scrollbar');
   function update(){
