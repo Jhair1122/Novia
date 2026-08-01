@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="locked">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
@@ -20,6 +20,7 @@
     --shadow:rgba(20,4,12,.55);
   }
   *{box-sizing:border-box;}
+  html.locked, html.locked body{ overflow:hidden !important; height:100%; overscroll-behavior:none; touch-action:none; }
   body{
     margin:0; padding:0; min-height:100%;
     font-family:'Cormorant Garamond',serif;
@@ -183,6 +184,43 @@
     100%{ top:21px; opacity:1; }
   }
 
+  /* ---------- Botón de música ---------- */
+  #music-toggle{ position:fixed; top:18px; right:18px; z-index:160; width:42px; height:42px; border-radius:50%;
+    border:1px solid rgba(217,178,92,.45); background:rgba(20,4,12,.55); backdrop-filter:blur(3px);
+    display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; pointer-events:none;
+    transition:opacity .6s ease, transform .3s ease; box-shadow:0 8px 18px rgba(0,0,0,.4); }
+  #music-toggle.show{ opacity:1; pointer-events:auto; }
+  #music-toggle:active{ transform:scale(.9); }
+  #music-toggle svg{ width:20px; height:20px; color:var(--gold-bright); }
+  #music-toggle .bar{ position:absolute; width:2px; height:2px; background:var(--gold-bright); border-radius:1px; }
+  #music-toggle.playing .eq i{ animation:eq .9s ease-in-out infinite; }
+  @keyframes eq{ 0%,100%{ transform:scaleY(.4);} 50%{ transform:scaleY(1);} }
+
+  /* ---------- Pétalos cayendo ---------- */
+  .fall{ position:absolute; top:-8vh; will-change:transform,opacity; }
+  @keyframes fallDown{
+    0%{ transform:translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    8%{ opacity:1; }
+    92%{ opacity:1; }
+    100%{ transform:translateY(112vh) translateX(var(--drift)) rotate(300deg); opacity:0; }
+  }
+
+  /* ---------- Resplandor detrás del sello final ---------- */
+  .stamp-glow{ position:absolute; left:50%; top:50%; width:220%; height:220%; transform:translate(-50%,-50%);
+    border-radius:50%; background:radial-gradient(circle, rgba(240,217,152,.35), transparent 65%);
+    animation:glowPulse 3.2s ease-in-out infinite; z-index:-1; }
+  @keyframes glowPulse{ 0%,100%{ opacity:.55; transform:translate(-50%,-50%) scale(.92);} 50%{ opacity:1; transform:translate(-50%,-50%) scale(1.08);} }
+
+  /* ---------- Suave vaivén continuo del ramo ya florecido ---------- */
+  .bouquet svg{ animation:swayBouquet 5s ease-in-out infinite; transform-origin:50% 100%; }
+  @keyframes swayBouquet{ 0%,100%{ transform:rotate(-1.2deg);} 50%{ transform:rotate(1.2deg);} }
+
+  /* ---------- Destellos junto al título ---------- */
+  .title-sparkle{ position:absolute; width:22px; height:22px; opacity:0; pointer-events:none; }
+  .section.in-view .title-sparkle{ animation:sparkleTwinkle 2.4s ease-in-out infinite; animation-play-state:running; }
+  .title-sparkle{ animation-play-state:paused; }
+  @keyframes sparkleTwinkle{ 0%,100%{ opacity:.2; transform:scale(.7) rotate(0deg);} 50%{ opacity:1; transform:scale(1.15) rotate(25deg);} }
+
   /* ---------- Responsive ---------- */
   @media (max-width:380px){
     .section{ padding:64px 20px; }
@@ -202,6 +240,13 @@
 <div id="scrollbar"></div>
 <div class="bg-fixed"></div>
 <div id="ambient"></div>
+<audio id="bg-music" loop preload="none">
+  <source src="musica/nuestra-cancion.mp3" type="audio/mpeg">
+</audio>
+<button id="music-toggle" aria-label="Activar o silenciar la música" type="button">
+  <svg class="icon-note" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+</button>
+
 <div id="scroll-guide">
   <div class="swipe-track"><span class="swipe-dot"></span></div>
   <span>Desliza hacia arriba</span>
@@ -365,6 +410,8 @@
 
   <section class="section" id="sec-title">
     <div class="corner-flourish tl"><svg viewBox="0 0 100 100"><use href="#rose-def" transform="scale(0.6)"/></svg></div>
+    <div class="title-sparkle" style="top:14%; left:12%; animation-delay:.2s;"><svg viewBox="0 0 100 100"><use href="#spark-def"/></svg></div>
+    <div class="title-sparkle" style="top:20%; right:10%; left:auto; width:16px; height:16px; animation-delay:1s;"><svg viewBox="0 0 100 100"><use href="#spark-def"/></svg></div>
     <p class="eyebrow reveal">Feliz día, mi amor</p>
     <h1 class="letters" id="letters-title"></h1>
     <p class="body-text reveal d1">Hoy quiero celebrarte a ti, mi novia, la persona que más amo en este mundo.</p>
@@ -444,6 +491,7 @@
     <p class="eyebrow reveal">Para siempre</p>
     <p class="body-text reveal d1">Feliz día, mi Camila. Te amo muchísimo y quiero que sepas que eres el regalo más bonito que la vida me dio.</p>
     <div class="stamp-zone reveal d2">
+      <div class="stamp-glow"></div>
       <div class="stamp" id="waxstamp">
         <svg viewBox="0 0 100 100">
           <use href="#seal-def"/>
@@ -540,6 +588,28 @@ const FOTOS = [
   document.head.appendChild(style);
 })();
 
+/* pétalos de rosa cayendo despacio, para darle más vida romántica a toda la carta */
+(function(){
+  const wrap = document.getElementById('ambient');
+  const N = 10;
+  for(let i=0;i<N;i++){
+    const el = document.createElement('div');
+    el.className = 'fall';
+    const size = 12+Math.random()*14;
+    el.style.left = (Math.random()*100)+'%';
+    el.style.width = size+'px';
+    el.style.height = size+'px';
+    el.innerHTML = `<svg viewBox="0 0 100 100" style="width:100%;height:100%;opacity:${(0.28+Math.random()*0.3).toFixed(2)}">
+      <use href="#rose-def" transform="scale(0.55)"/></svg>`;
+    const dur = 11+Math.random()*10;
+    const delay = -Math.random()*dur;
+    const drift = (Math.random()*80-40).toFixed(0);
+    el.style.setProperty('--drift', drift+'px');
+    el.style.animation = `fallDown ${dur}s linear ${delay}s infinite`;
+    wrap.appendChild(el);
+  }
+})();
+
 /* constelación: estrellas dibujando un corazón, con margen amplio para que nunca se recorte */
 (function(){
   const svg = document.getElementById('stars-svg');
@@ -572,11 +642,40 @@ const FOTOS = [
   const env = document.getElementById('envelope');
   const cover = document.getElementById('cover');
   const guide = document.getElementById('scroll-guide');
+  const music = document.getElementById('bg-music');
+  const musicBtn = document.getElementById('music-toggle');
+
+  function setPlayingIcon(playing){
+    musicBtn.classList.toggle('playing', playing);
+    musicBtn.innerHTML = playing
+      ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="3" y1="3" x2="21" y2="21"/></svg>';
+  }
+
+  musicBtn.addEventListener('click', ()=>{
+    try{
+      if(music.paused){ music.play().then(()=> setPlayingIcon(true)).catch(()=>{}); }
+      else { music.pause(); setPlayingIcon(false); }
+    }catch(err){ /* si el audio falla, el resto de la carta sigue funcionando igual */ }
+  });
 
   env.addEventListener('click', ()=>{
     if(env.classList.contains('open')) return;
     env.classList.add('open');
     document.getElementById('hint-first').style.opacity = '0';
+    document.documentElement.classList.remove('locked');
+
+    try{
+      music.volume = 0.55;
+      music.play().then(()=>{
+        setPlayingIcon(true);
+        musicBtn.classList.add('show');
+      }).catch(()=>{
+        /* el navegador bloqueó el autoplay: igual mostramos el botón para que lo active manualmente */
+        setPlayingIcon(false);
+        musicBtn.classList.add('show');
+      });
+    }catch(err){ musicBtn.classList.add('show'); }
 
     setTimeout(()=>{
       const h = cover.getBoundingClientRect().height;
